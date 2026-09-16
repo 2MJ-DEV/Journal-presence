@@ -1,0 +1,9 @@
+node_modules/
+.next/
+dist/
+.env
+*.log
+coverage/
+packages/vision/.venv/
+packages/vision/config.yaml
+packages/vision/*.pt

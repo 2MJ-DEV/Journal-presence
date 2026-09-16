@@ -1,0 +1,108 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MovementType {
+  ENTRY
+  EXIT
+}
+
+enum MovementSource {
+  SIMULATED
+  VISION
+  IMPORTED
+}
+
+enum SessionStatus {
+  OPEN
+  CLOSED
+  UNKNOWN
+}
+
+enum CameraStatus {
+  ONLINE
+  OFFLINE
+  UNKNOWN
+}
+
+enum CameraEventType {
+  ONLINE
+  OFFLINE
+}
+
+model Student {
+  id            String        @id @default(uuid())
+  studentNumber String        @unique
+  firstName     String
+  lastName      String
+  department    String?
+  promotion     String?
+  photoUrl      String?
+  faceEmbedding Json?
+  active        Boolean       @default(true)
+  movements     LabMovement[]
+  sessions      LabSession[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model LabMovement {
+  id         String         @id @default(uuid())
+  eventId    String         @unique @default(uuid())
+  studentId  String
+  type       MovementType
+  timestamp  DateTime
+  confidence Float?
+  cameraId   String?
+  source     MovementSource @default(SIMULATED)
+  student    Student        @relation(fields: [studentId], references: [id])
+  camera     Camera?        @relation(fields: [cameraId], references: [id])
+  createdAt  DateTime       @default(now())
+
+  @@index([studentId, timestamp])
+  @@index([timestamp])
+}
+
+model LabSession {
+  id        String        @id @default(uuid())
+  studentId String
+  entryAt   DateTime
+  exitAt    DateTime?
+  duration  Int?
+  status    SessionStatus @default(OPEN)
+  student   Student       @relation(fields: [studentId], references: [id])
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([studentId, entryAt])
+}
+
+model Camera {
+  id         String        @id @default(uuid())
+  name       String
+  location   String?
+  status     CameraStatus  @default(UNKNOWN)
+  lastSeenAt DateTime?
+  movements  LabMovement[]
+  events     CameraEvent[]
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model CameraEvent {
+  id        String          @id @default(uuid())
+  cameraId  String
+  type      CameraEventType
+  startedAt DateTime
+  endedAt   DateTime?
+  reason    String?
+  camera    Camera           @relation(fields: [cameraId], references: [id])
+  createdAt DateTime         @default(now())
+
+  @@index([cameraId, startedAt])
+}

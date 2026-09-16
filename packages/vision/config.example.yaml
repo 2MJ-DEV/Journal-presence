@@ -1,0 +1,12 @@
+api_url: http://localhost:3001/api
+camera_id: 00000000-0000-0000-0000-000000000001
+video_source: 0
+model: yolov8n.pt
+faces_dir: ./faces
+line:
+  orientation: horizontal
+  start: [0, 260]
+  end: [640, 260]
+recognition_threshold: 0.48
+person_confidence: 0.55
+cooldown_seconds: 8

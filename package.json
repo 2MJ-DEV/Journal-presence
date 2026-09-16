@@ -1,0 +1,19 @@
+{
+  "name": "smart-lab-attendance",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace @smart-lab/api\" \"npm run dev --workspace web\"",
+    "build": "npm run build --workspace @smart-lab/api && npm run build --workspace web",
+    "db:generate": "npm run prisma:generate --workspace @smart-lab/api",
+    "db:migrate": "npm run prisma:migrate --workspace @smart-lab/api",
+    "db:seed": "npm run prisma:seed --workspace @smart-lab/api",
+    "vision:setup": "powershell -ExecutionPolicy Bypass -File packages/vision/setup.ps1",
+    "vision:run": "powershell -ExecutionPolicy Bypass -File packages/vision/run.ps1 -Display"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
