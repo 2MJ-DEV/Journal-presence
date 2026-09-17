@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { IsDateString, IsEnum, IsNumber, IsUUID, Max, Min } from 'class-validator';
+import { IsDateString, IsEnum, IsIn, IsNumber, IsOptional, IsUUID, Max, Min } from 'class-validator';
 import { MovementType } from '@prisma/client';
 import { VisionService } from './vision.service';
 
@@ -10,6 +10,7 @@ class VisionEventDto {
   @IsDateString() timestamp!: string;
   @IsNumber() @Min(0) @Max(1) confidence!: number;
   @IsUUID() cameraId!: string;
+  @IsOptional() @IsIn(['SIMULATED', 'VISION', 'IMPORTED']) source?: 'SIMULATED' | 'VISION' | 'IMPORTED';
 }
 
 @Controller('vision')

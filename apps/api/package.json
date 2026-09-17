@@ -7,15 +7,16 @@
     "build": "nest build",
     "start": "dotenv -e ../../.env -- node dist/src/main.js",
     "prisma:generate": "dotenv -e ../../.env -- prisma generate --schema ../../prisma/schema.prisma",
+    "prisma:push": "dotenv -e ../../.env -- prisma db push --schema ../../prisma/schema.prisma",
     "prisma:migrate": "dotenv -e ../../.env -- prisma migrate dev --schema ../../prisma/schema.prisma",
-    "prisma:seed": "dotenv -e ../../.env -- tsx prisma/seed.ts"
+    "prisma:deploy": "dotenv -e ../../.env -- prisma migrate deploy --schema ../../prisma/schema.prisma"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.11",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.11",
     "@nestjs/platform-express": "^11.0.11",
-    "@prisma/client": "^6.5.0",
+    "@prisma/client": "^6.19.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.7",
@@ -28,7 +29,7 @@
     "@nestjs/testing": "^11.0.11",
     "@types/node": "^22.13.10",
     "dotenv-cli": "^8.0.0",
-    "prisma": "^6.5.0",
+    "prisma": "^6.19.3",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
   }

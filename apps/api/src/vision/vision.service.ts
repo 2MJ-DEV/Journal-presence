@@ -10,6 +10,7 @@ export type VisionEventInput = {
   timestamp: Date;
   confidence: number;
   cameraId: string;
+  source?: 'SIMULATED' | 'VISION' | 'IMPORTED';
 };
 
 @Injectable()

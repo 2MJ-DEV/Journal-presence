@@ -7,9 +7,11 @@
   "scripts": {
     "dev": "concurrently \"npm run dev --workspace @smart-lab/api\" \"npm run dev --workspace web\"",
     "build": "npm run build --workspace @smart-lab/api && npm run build --workspace web",
-    "db:generate": "npm run prisma:generate --workspace @smart-lab/api",
-    "db:migrate": "npm run prisma:migrate --workspace @smart-lab/api",
-    "db:seed": "npm run prisma:seed --workspace @smart-lab/api",
+    "db:generate": "dotenv -e .env -- prisma generate --schema prisma/schema.prisma",
+    "db:push": "dotenv -e .env -- prisma db push --schema prisma/schema.prisma",
+    "db:migrate": "dotenv -e .env -- prisma migrate dev --schema prisma/schema.prisma",
+    "db:deploy": "dotenv -e .env -- prisma migrate deploy --schema prisma/schema.prisma",
+    "db:reset": "dotenv -e .env -- prisma migrate reset --schema prisma/schema.prisma --force",
     "vision:setup": "powershell -ExecutionPolicy Bypass -File packages/vision/setup.ps1",
     "vision:run": "powershell -ExecutionPolicy Bypass -File packages/vision/run.ps1 -Display"
   },

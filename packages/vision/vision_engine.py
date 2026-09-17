@@ -47,7 +47,14 @@ class VisionEngine:
 
     def process_frame(self, frame: Any) -> list[dict[str, object]]:
         published: list[dict[str, object]] = []
-        for person in self.tracker.track(frame):
+        people = self.tracker.track(frame)
+        active_track_ids = {person.track_id for person in people}
+
+        for track_id in list(self.identities):
+            if track_id not in active_track_ids:
+                del self.identities[track_id]
+
+        for person in people:
             crop = self._crop(frame, person.box)
             if crop.size == 0:
                 continue

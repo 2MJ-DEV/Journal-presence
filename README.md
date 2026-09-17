@@ -1,4 +1,4 @@
-# Smart Lab Attendance
+# Journal de Présence Attendance
 
 Base de projet pour automatiser la gestion des entrées et sorties du laboratoire universitaire.
 
@@ -16,8 +16,7 @@ cp .env.example .env
 docker compose up -d
 npm install
 npm run db:generate
-npm run db:migrate
-npm run db:seed
+npm run db:push
 npm run dev
 ```
 
